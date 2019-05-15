@@ -1,0 +1,44 @@
+<html>
+<head>
+  <title>Rio-tra-con</title>
+</head>
+<body>
+  <input id="palavra">
+  <p id="contrario" ></p>
+  <button onclick='requisicao()'>Clique Aqui</button>
+  <button onclick='ouvirTexto()'>Ouvir</button>
+  <script src="http://code.responsivevoice.org/responsivevoice.js?key=jW2jqTts"></script>
+  <script>
+    function requisicao() {
+      const _baseUl = 'https://www.separarensilabas.com/index-pt.php?f=';
+      const _palavra = document.getElementById('palavra').value;
+
+      fetch(`${_baseUl}${_palavra}`)
+        .then((body) => body.text())
+        .then((data) => {
+          document.getElementById('contrario').innerText = inverteTexto(limpaTexto(data));
+        })
+        .catch((error) => console.error('Whoops! Erro:', error.message || error))
+    }
+
+    function limpaTexto(texto) {
+      return texto
+              .split('Separação normal</h2>')[1]
+              .replace(/(<(\/)?strong>)/g, '')
+              .match(/^.* &/g)[0]
+              .replace(' &', '');
+    }
+
+    function inverteTexto(texto) {
+      return texto
+              .split('-')
+              .reverse()
+              .join('');
+    }
+    
+    function ouvirTexto() {
+      responsiveVoice.speak(document.getElementById('contrario').innerText);
+    }
+  </script>
+</body>
+</html>
