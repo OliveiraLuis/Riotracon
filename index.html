@@ -13,7 +13,7 @@
       const _baseUl = 'https://www.separarensilabas.com/index-pt.php?f=';
       const _palavra = document.getElementById('palavra').value;
 
-      fetch(`${_baseUl}${_palavra}`)
+      fetch(`${_baseUl}${_palavra}`, { mode: 'no-cors' })
         .then((body) => body.text())
         .then((data) => {
           document.getElementById('contrario').innerText = inverteTexto(limpaTexto(data));
